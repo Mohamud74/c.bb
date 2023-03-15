@@ -1,0 +1,149 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+// Represent a stack list in C++
+class Node
+{
+public:
+    int data;
+    Node *next;
+
+    // Default constructor
+    Node()
+    {
+        data = 0;
+        next = NULL;
+    }
+
+    // Constructor with data
+    Node(int data)
+    {
+        this->data = data;
+        this->next = NULL;
+    }
+};
+
+class Storage
+{
+public:
+    Node *head;
+
+    // Default constructor
+    Storage()
+    {
+        head = NULL;
+    }
+
+    // Create a Node to hold the data, then put it at the head of the list.
+    void push(int data);
+
+    // Remove the head Node and return its data.
+    bool pop(int &data);
+
+    // Return the data from the head Node, without removing it.
+    bool peek(int &data);
+
+    // Return True if the list is empty, otherwise False  
+    bool isEmpty();
+
+    // Swaps the nodes at position i and j.
+    bool swap(int i, int j);
+
+    // Prints a given stack
+    void printList();
+};
+
+// Function that will add a new node to the storage
+void Storage::push(int data)
+{
+    // allocate space for new node in heap
+    Node *newNode = new Node(data);
+
+    // check if allocation was successful
+    if(!newNode)
+    {
+        cerr << "Log of negative number is: " << errno << "\n";
+        cerr << "Cause of error: " << strerror(errno) << endl;
+        exit(-1);
+    }
+
+    // checks if storage is empty
+    if(head == NULL)
+    {
+        head = newNode;
+    }
+    else
+    {
+        // new node will be assigned as head like stack
+        // last-in first-out (LIFO)
+        // and head will point to new node
+        newNode->next = head;
+        head = newNode;
+    }
+}
+
+// Function to remove a key from the beginning
+bool Storage::pop(int &data)
+{
+    if(head == NULL)
+    {
+        cout << "Stacken är tom." << endl;
+        return false;
+    }
+    else
+    {
+        // remove the top item from the stack using temporary pointer
+        Node *ptr = head;
+        head = head->next;
+
+        data = ptr->data; // assign data value to output parameter
+        delete(ptr);
+
+        cout << "Det poppade elementet är " << data << endl;
+        return true;
+    }
+}
+
+// Function that returns the top element in a stack
+bool Storage::peek(int &data)
+{
+    Node *newNode = head;
+
+    if(newNode == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        // if stack is not empty, return the top element
+        data = newNode->data; // assign data value to output parameter
+        cout << "Toppelementet är " << data << endl;
+        return true;
+    }
+}
+
+// Function to check if the storage is empty or not
+bool Storage::isEmpty()
+{
+    if(head == NULL)
+    {
+        cout << "Stacken är tom" << endl;
+        return true;
+    }
+    else
+    {
+        cout << "Stacken är inte tom" << endl;
+        return false;
+    }
+}
+
+// Function to swap two node values
+bool Storage::swap(int i, int j)
+ {
+    // if i and j are equal, then the list will remain the same
+    if(i == j)
+    {
+        return 0;
+    }
